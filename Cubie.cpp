@@ -3,9 +3,14 @@
 #include <GL/gl.h>
 #include <GL/glut.h>
 
-Cubie::Cubie(float x, float y, float z,float faceSize):x(x),y(y),z(z),faceSize(faceSize)
-{
+#include <cmath>
 
+#include <cstdio>
+
+
+Cubie::Cubie(float x, float y, float z,float faceSize):x(x),y(y),z(z),faceSize(faceSize),mat(*new Matrix)
+{
+    mat.loadIdentity();  
 }
 void Cubie::setPosition(float x,float y,float z)
 {
@@ -14,23 +19,28 @@ void Cubie::setPosition(float x,float y,float z)
     this->z=z;
 }
 void Cubie::rotate(float x,float y,float z)
-{
+{   
     angle_x+=x;
     angle_y+=y;
     angle_z+=z;
+
+    mat.rotateX(x);
+    mat.rotateY(y);
+    mat.rotateZ(z);
 }
+
+
 void Cubie::display()
 {
     float halfSize = faceSize/2;
 
-    float m[16];
-    glGetFloatv(GL_MODELVIEW_MATRIX, m);
-
-    glRotated(angle_x,1,0,0);
-    glRotated(angle_y,0,1,0);
-    glRotated(angle_z,0,0,1);
+    glPushMatrix();
 
     glTranslated(x,y,z);
+    
+    glMultMatrixf(mat.transposed().getData());
+
+    // printf("%f %f %f\n",x,y,z);
     
     glBegin(GL_TRIANGLES);
     // back face
@@ -120,6 +130,5 @@ void Cubie::display()
 
     glEnd();
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadMatrixf(m);
+    glPopMatrix();
 }

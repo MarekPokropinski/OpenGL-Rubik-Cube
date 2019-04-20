@@ -3,6 +3,7 @@
 #include <GL/gl.h>
 #include <GL/glut.h>
 
+#include <cstdlib>
 #include <cstdio>
 
 constexpr float PI = 3.14;
@@ -14,22 +15,17 @@ Cube::Cube()
     /**
      * Set cube initial state
     */
-    for(int x=-1;x<2;x++)
-    for(int y=-1;y<2;y++)
-    for(int z=-1;z<2;z++)
+    for(int x=-dim/2;x<(dim+1)/2;x++)
+    for(int y=-dim/2;y<(dim+1)/2;y++)
+    for(int z=-dim/2;z<(dim+1)/2;z++)
         cubies.push_back(Cubie(x*faceSize,y*faceSize,z*faceSize,faceSize));
 }
 
 void Cube::display()
-{
-    for(auto& cubie :cubies)
-    {
-        printf("x=%f,y=%f,z=%f\n",cubie.x,cubie.y,cubie.z);
-    }
-    printf("\n----------------------\n");
-      
+{      
     for(auto&cubie : cubies)
     {
+        // printf("x:%f, y:%f, z:%f\n",cubie.x,cubie.y,cubie.z);
         cubie.display();
     }
 }
@@ -37,12 +33,10 @@ void Cube::rotateX(int index, int dir)
 {
     for(auto& cubie : cubies)
     {
-        // printf("x=%f,y=%f,z=%f\n",cubie.x,cubie.y,cubie.z);
         if((index==0 && cubie.x<-eps)||
         (index==1&&cubie.x>-eps&&cubie.x<eps)||
         (index==2&&cubie.x>eps))
         {
-            // printf("x=%f,y=%f,z=%f\n",cubie.x,cubie.y,cubie.z);
             cubie.setPosition(
                 cubie.x,
                 -dir*cubie.z,
@@ -87,3 +81,25 @@ void Cube::rotateZ(int index, int dir)
     }
 }
 
+void Cube::shuffle()
+{
+    for(int i=0;i<20;i++){
+        int index = rand()%2==0?0:2;
+        int dir = rand()%2==0?-1:1;
+        switch (rand()%3)
+        {
+            case 0:
+                rotateX(index,dir);
+                break;
+            case 1:
+                rotateY(index,dir);
+                break;
+            case 2:
+                rotateZ(index,dir);
+                break;
+        
+            default:
+                break;
+        }
+    }    
+}

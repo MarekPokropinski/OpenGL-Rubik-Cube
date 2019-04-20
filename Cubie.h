@@ -1,4 +1,6 @@
-
+#ifndef CUBIE_H
+#define CUBIE_H
+#include "Matrix.h"
 
 class Cubie
 {    
@@ -6,6 +8,9 @@ class Cubie
     float angle_x=0;
     float angle_y=0;
     float angle_z=0;
+
+    Matrix& mat;
+
 
 public:
     float x,y,z;
@@ -15,3 +20,4 @@ public:
     void rotate(float,float,float);
 };
 
+#endif

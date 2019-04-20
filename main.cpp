@@ -3,7 +3,9 @@
 #include <GL/gl.h>
 #include <GL/glut.h>
 
+#include "Cubie.h"
 #include "cube.h"
+
 
 Cube cube;
 
@@ -75,8 +77,6 @@ void Keyboard(unsigned char key,int x, int y)
     }
 
     RenderScene();
-    
-    
 }
 
 void Motion( GLsizei x, GLsizei y )
@@ -94,28 +94,27 @@ void RenderScene(void)
     theta_x += delta_x*pix2angle;
     theta_y += delta_y*pix2angle;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);// Czyszczenie okna aktualnym kolorem czyszczącym
+    glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();// Czyszczenie macierzy bieżącej
-
 
     glRotatef(theta_x, 0.0, 1.0, 0.0); 
     glRotatef(theta_y, 1.0, 0.0, 0.0); 
     
     if(rotXl) {
-        cube.rotateX(0,1);        
+        cube.rotateX(1,1);
     }else if(rotXr) {
-        cube.rotateX(0,-1); 
+        cube.rotateX(1,-1); 
     }else if(rotYl) {
-        cube.rotateY(0,1); 
+        cube.rotateY(1,1); 
     }else if(rotYr) {
-        cube.rotateY(0,-1); 
+        cube.rotateY(1,-1); 
     }else if(rotZl) {
-        cube.rotateZ(0,1); 
+        cube.rotateZ(1,1); 
     }else if(rotZr) {
-        cube.rotateZ(0,-1); 
+        cube.rotateZ(1,-1); 
     }
     resetKeys();
     cube.display();
-
 
     glFlush();// Przekazanie poleceń rysujących do wykonania    
     glutSwapBuffers();
@@ -141,7 +140,7 @@ void ChangeSize(GLsizei horizontal, GLsizei vertical )
 
 int main(int argc, char **argv)
 {      
-
+    // cube.shuffle();
     glutInit(&argc, argv);
 
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB |GLUT_DEPTH);

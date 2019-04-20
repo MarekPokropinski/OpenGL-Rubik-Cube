@@ -9,10 +9,14 @@ class Cube
     static constexpr float faceSize = 3.0f;
     vector<Cubie> cubies;
 
+    bool isAnimating = false;
+
 public:
     Cube();
     void display();
     void rotateX(int index, int dir);
     void rotateY(int index, int dir);
     void rotateZ(int index, int dir);
+
+    void shuffle();
 };
