@@ -10,6 +10,11 @@ constexpr float PI = 3.14;
 
 static const float eps = 0.1;
 
+bool almostEqual(float a, float b)
+{
+    return a<b+eps && a > b-eps;
+}
+
 Cube::Cube()
 {
     /**
@@ -25,17 +30,31 @@ void Cube::display()
 {      
     for(auto&cubie : cubies)
     {
-        // printf("x:%f, y:%f, z:%f\n",cubie.x,cubie.y,cubie.z);
+        glPushMatrix();
+        if(move!=nullptr&&!move->isFinished())
+        {          
+            if((*move).x!=0&&almostEqual(cubie.x,(*move).x*faceSize))
+            {
+                glRotated(move->angle,1,0,0);
+            }
+            if((*move).y!=0&&almostEqual(cubie.y,(*move).y*faceSize))
+            {
+                glRotated(move->angle,0,1,0);
+            }
+            if((*move).z!=0&&almostEqual(cubie.z,(*move).z*faceSize))
+            {
+                glRotated(move->angle,0,0,1);
+            }
+        }        
         cubie.display();
+        glPopMatrix();
     }
 }
 void Cube::rotateX(int index, int dir)
 {
     for(auto& cubie : cubies)
     {
-        if((index==0 && cubie.x<-eps)||
-        (index==1&&cubie.x>-eps&&cubie.x<eps)||
-        (index==2&&cubie.x>eps))
+        if(almostEqual(index*faceSize,cubie.x))
         {
             cubie.setPosition(
                 cubie.x,
@@ -50,9 +69,7 @@ void Cube::rotateY(int index, int dir)
 {
     for(auto& cubie : cubies)
     {        
-        if((index==0 && cubie.y<-eps)||
-        (index==1&&cubie.y>-eps&&cubie.y<eps)||
-        (index==2&&cubie.y>eps))
+        if(almostEqual(index*faceSize,cubie.y))
         {
             cubie.setPosition(
                 dir*cubie.z,
@@ -67,9 +84,7 @@ void Cube::rotateZ(int index, int dir)
 {
     for(auto& cubie : cubies)
     {        
-        if((index==0 && cubie.z<-eps)||
-        (index==1&&cubie.z>-eps&&cubie.z<eps)||
-        (index==2&&cubie.z>eps))
+        if(almostEqual(index*faceSize,cubie.z))
         {
             cubie.setPosition(
                 -dir*cubie.y,
@@ -102,4 +117,8 @@ void Cube::shuffle()
                 break;
         }
     }    
+}
+void Cube::setMove(Move* m)
+{
+    move =m;
 }

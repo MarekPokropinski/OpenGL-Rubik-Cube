@@ -35,12 +35,8 @@ void Cubie::display()
     float halfSize = faceSize/2;
 
     glPushMatrix();
-
-    glTranslated(x,y,z);
-    
+    glTranslated(x,y,z);    
     glMultMatrixf(mat.transposed().getData());
-
-    // printf("%f %f %f\n",x,y,z);
     
     glBegin(GL_TRIANGLES);
     // back face
