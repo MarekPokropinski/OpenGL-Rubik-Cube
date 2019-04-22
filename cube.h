@@ -1,3 +1,4 @@
+#pragma once
 #include <inttypes.h>
 #include "Cubie.h"
 #include <vector>

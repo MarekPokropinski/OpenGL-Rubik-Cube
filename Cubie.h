@@ -1,5 +1,4 @@
-#ifndef CUBIE_H
-#define CUBIE_H
+#pragma once
 #include "Matrix.h"
 
 class Cubie
@@ -19,5 +18,3 @@ public:
     void setPosition(float,float,float);
     void rotate(float,float,float);
 };
-
-#endif

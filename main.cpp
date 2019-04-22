@@ -1,3 +1,9 @@
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+#include <Windows.h>
+#endif // WINDOWS
+#include <GL/gl.h>
+#include <GL/glut.h>
+
 #include "render.h"
 
 #include "Cubie.h"
@@ -7,8 +13,7 @@
 #include <cstdio>
 #include <vector>
 #include <cstdlib>
-#include <GL/gl.h>
-#include <GL/glut.h>
+
 
 using namespace std;
 
@@ -22,20 +27,6 @@ int main(int argc, char**argv)
     init(argc,argv);
 }
 void draw() {
-    // if(rotXl) {
-    //     cube.rotateX(1,1);
-    // }else if(rotXr) {
-    //     cube.rotateX(1,-1); 
-    // }else if(rotYl) {
-    //     cube.rotateY(1,1); 
-    // }else if(rotYr) {
-    //     cube.rotateY(1,-1); 
-    // }else if(rotZl) {
-    //     cube.rotateZ(1,1); 
-    // }else if(rotZr) {
-    //     cube.rotateZ(1,-1); 
-    // }
-    // resetKeys();
     if(currentMove!=moves.end())
     {
         Move& move = (*currentMove);
@@ -56,7 +47,7 @@ void draw() {
             ++currentMove;
             if(currentMove!=moves.end())
             {
-                cube.setMove(currentMove.base());
+                cube.setMove(&*currentMove);
             }
             else
             {
@@ -70,7 +61,6 @@ void draw() {
 
 void setup() {
     Move::setSpeed(10);
-    printf("set up");
     for(int i=0;i<100;i++)
     {
         int a=0,b=0,c=0,d=0;
@@ -94,5 +84,5 @@ void setup() {
     moves.push_back(Move(0,1,0,1));
     moves.push_back(Move(0,0,1,1));
     currentMove = moves.begin();
-    cube.setMove(currentMove.base());
+    cube.setMove(&*currentMove);
 }

@@ -1,6 +1,3 @@
-#ifndef RENDER
-#define RENDER
+#pragma once
 
 int init(int argc, char **argv);
-
-#endif
